@@ -1,4 +1,4 @@
-package net.cimadai.iroha
+package co.consultsafe.iroha
 
 sealed trait QueryResponse
 

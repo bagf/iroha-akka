@@ -1,13 +1,13 @@
-package iroha
+package co.consultsafe.iroha
 
 import akka.actor.ActorSystem
 import akka.grpc.GrpcClientSettings
 import akka.pattern.pipe
 import akka.stream.scaladsl.{Sink, Source}
 import akka.testkit.{TestKit, TestProbe}
+import co.consultsafe.iroha.{Account => IrohaAccount, Batch => IrohaBatch, QueryResponse => IrohaResponse}
 import iroha.protocol._
 import jp.co.soramitsu.crypto.ed25519.Ed25519Sha3
-import net.cimadai.iroha.{Account, Implicits, Payload, Status, Utils, Batch => IrohaBatch, QueryResponse => IrohaResponse}
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -48,7 +48,7 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
     "313a07e6384776ed95447710d15e59148473ccfc052a681317a72a69f2a49910",
     "f101537e319568c765b2cc89698325604991dca57b9716b58016b253506cab70"
   )
-  val irohaAdminAccount = Account("admin@test")
+  val irohaAdminAccount = IrohaAccount("admin@test")
   val irohaIrohaAsset1 = randomString(6).toLowerCase
   val irohaAccount1 = s"r${randomString(5).toLowerCase}m"
   val irohaAccount1Keypair = crypto.generateKeypair()
@@ -62,7 +62,7 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
       "create new domain" in {
         val probe = TestProbe()
         val command = new Command().update(_.createDomain.set(
-          protocol.CreateDomain(irohaDomain, irohaRole)
+          CreateDomain(irohaDomain, irohaRole)
         ))
         val tx = Payload.createFromCommand(command, irohaAdminAccount).transaction
 
@@ -146,7 +146,7 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
       "transfer amount of 100.24 from admin account" in {
         val probe = TestProbe()
         val command = new Command().update(_.transferAsset.set(
-          TransferAsset(irohaAdminAccount.toIrohaString, Account(irohaAccount1, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test", "100.24")
+          TransferAsset(irohaAdminAccount.toIrohaString, IrohaAccount(irohaAccount1, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test", "100.24")
         ))
 
         val tx = Payload.createFromCommand(command, irohaAdminAccount).transaction
@@ -163,7 +163,7 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
       "append money_creator role for second account" in {
         val probe = TestProbe()
         val command = new Command().update(_.appendRole.set(
-          AppendRole(Account(irohaAccount2, irohaDomain).toIrohaString, "money_creator")
+          AppendRole(IrohaAccount(irohaAccount2, irohaDomain).toIrohaString, "money_creator")
         ))
 
         val tx = Payload.createFromCommand(command, irohaAdminAccount).transaction
@@ -187,18 +187,18 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
         ))
 
         val transferCommand = new Command().update(_.transferAsset.set(
-          TransferAsset(Account(irohaAccount2, irohaDomain).toIrohaString, Account(irohaAccount3, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test 2", "100123.01")
+          TransferAsset(IrohaAccount(irohaAccount2, irohaDomain).toIrohaString, IrohaAccount(irohaAccount3, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test 2", "100123.01")
         ))
 
         val transferBackCommand = new Command().update(_.transferAsset.set(
-          TransferAsset(Account(irohaAccount3, irohaDomain).toIrohaString, Account(irohaAccount1, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test 3", "100123.01")
+          TransferAsset(IrohaAccount(irohaAccount3, irohaDomain).toIrohaString, IrohaAccount(irohaAccount1, irohaDomain).toIrohaString, s"$irohaIrohaAsset1#$irohaDomain", "Transfer test 3", "100123.01")
         ))
 
         val batch = IrohaBatch.createTxOrderedBatch(Seq(
-          Payload.createFromCommand(addAssetQtyCommand, Account(irohaAccount2, irohaDomain)).transaction,
+          Payload.createFromCommand(addAssetQtyCommand, IrohaAccount(irohaAccount2, irohaDomain)).transaction,
           Payload.createFromCommand(createAccountCommand, irohaAdminAccount).transaction,
-          Payload.createFromCommand(transferCommand, Account(irohaAccount2, irohaDomain)).transaction,
-          Payload.createFromCommand(transferBackCommand, Account(irohaAccount3, irohaDomain)).transaction
+          Payload.createFromCommand(transferCommand, IrohaAccount(irohaAccount2, irohaDomain)).transaction,
+          Payload.createFromCommand(transferBackCommand, IrohaAccount(irohaAccount3, irohaDomain)).transaction
         ))
 
         val signedBatch = Seq(
@@ -270,4 +270,3 @@ class IrohaSpec extends TestKit(ActorSystem(classOf[IrohaSpec].getSimpleName)) w
     }
   }
 }
-

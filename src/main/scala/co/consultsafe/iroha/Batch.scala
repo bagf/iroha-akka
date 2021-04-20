@@ -1,4 +1,4 @@
-package net.cimadai.iroha
+package co.consultsafe.iroha
 
 import iroha.protocol
 import iroha.protocol.Transaction.Payload.BatchMeta

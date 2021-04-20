@@ -1,9 +1,9 @@
-package net.cimadai.iroha
-
-import java.util.concurrent.atomic.AtomicLong
+package co.consultsafe.iroha
 
 import iroha.protocol
 import iroha.protocol.Transaction.Payload.ReducedPayload
+
+import java.util.concurrent.atomic.AtomicLong
 
 object Payload {
   private val queryCounter = new AtomicLong(1)

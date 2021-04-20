@@ -1,10 +1,10 @@
-package net.cimadai.iroha
+package co.consultsafe.iroha
 
-import java.security.KeyPair
-
+import co.consultsafe.iroha.Utils.{hash, toHex}
 import iroha.protocol
 import jp.co.soramitsu.crypto.ed25519.Ed25519Sha3
-import net.cimadai.iroha.Utils.{hash, toHex}
+
+import java.security.KeyPair
 
 object Signature {
   def sign(t: protocol.Transaction.Payload, kp: KeyPair): protocol.Signature = {

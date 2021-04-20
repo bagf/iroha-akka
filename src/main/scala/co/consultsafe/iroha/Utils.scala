@@ -1,13 +1,13 @@
-package net.cimadai.iroha
-
-import java.security.{KeyPair, PrivateKey, PublicKey}
+package co.consultsafe.iroha
 
 import iroha.protocol
 import iroha.protocol.Transaction.Payload.ReducedPayload
-import javax.xml.bind.DatatypeConverter
-import javax.xml.bind.DatatypeConverter.parseHexBinary
 import jp.co.soramitsu.crypto.ed25519.Ed25519Sha3.{privateKeyFromBytes, publicKeyFromBytes}
 import org.spongycastle.jcajce.provider.digest.SHA3
+
+import java.security.{KeyPair, PrivateKey, PublicKey}
+import javax.xml.bind.DatatypeConverter
+import javax.xml.bind.DatatypeConverter.parseHexBinary
 
 /**
   * Scala version of https://github.com/hyperledger/iroha-java/blob/master/client/src/main/java/jp/co/soramitsu/iroha/java/Utils.java

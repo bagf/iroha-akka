@@ -1,6 +1,6 @@
 name := "iroha-akka"
 scalaVersion := "2.13.5"
-organization := "com.consultsafesoftware"
+organization := "co.consultsafe"
 version := s"1.0.${sys.env.getOrElse("JB_SPACE_EXECUTION_NUMBER", "0")}"
 ThisBuild / versionScheme := Some("early-semver")
 
