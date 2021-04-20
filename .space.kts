@@ -18,15 +18,11 @@ job("Build, publish dist") {
 
         shellScript {
             content = """
-                echo Build...
-                sbt "clean;compile"
-                echo Publish artifacts...
                 echo "realm=" > ~/.sbt/space-maven.credentials
                 echo "host=maven.pkg.jetbrains.space" >> ~/.sbt/space-maven.credentials
                 echo "user=${'$'}JB_SPACE_CLIENT_ID" >> ~/.sbt/space-maven.credentials
                 echo "password=${'$'}JB_SPACE_CLIENT_SECRET" >> ~/.sbt/space-maven.credentials
-                cat ~/.sbt/space-maven.credentials
-                sbt "publish"
+                sbt "clean;compile;publish"
             """
         }
     }

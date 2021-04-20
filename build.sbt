@@ -2,6 +2,7 @@ name := "iroha-akka"
 scalaVersion := "2.13.5"
 organization := "com.consultsafesoftware"
 version := s"1.0.${sys.env.getOrElse("JB_SPACE_EXECUTION_NUMBER", "0")}"
+ThisBuild / versionScheme := Some("early-semver")
 
 val AkkaVersion = "2.6.14"
 val ScalaTestVersion = "3.2.7"
@@ -22,14 +23,13 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.8" % Test
 )
 
-publishMavenStyle := false
+publishMavenStyle := true
 publishArtifact in Test := false
-pomIncludeRepository := { _ => false }
 skip in publish := false
 sources in (Compile,doc) := Seq.empty
 publishArtifact in (Compile, packageDoc) := false
 fork in Test := true
-publishTo := Some("space-maven" at s"${sys.env.getOrElse("REPOSITORY_URL", "https://maven.pkg.jetbrains.space/consultsafe/p/consolidated-payments/maven")}")
+publishTo := Some("space-maven" at s"${sys.env.getOrElse("REPOSITORY_URL", "")}")
 
 lazy val `iroha-akka` = (project in file("."))
   .enablePlugins(AkkaGrpcPlugin)
