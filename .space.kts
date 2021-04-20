@@ -1,3 +1,5 @@
+import runtime.ui.displayedName
+
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -11,7 +13,7 @@
 //}
 
 job("Build, publish dist") {
-    container(image = "consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/iroha-akka-sbt:latest") {
+    container(displayName = "Run build and publish",  image = "consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/iroha-akka-sbt:latest") {
         env["REPOSITORY_URL"] = "https://maven.pkg.jetbrains.space/consultsafe/p/consolidated-payments/maven"
 
         shellScript {
@@ -28,10 +30,8 @@ job("Build, publish dist") {
             """
         }
     }
-}
 
-job("Share the news in General") {
-    container(image = "openjdk:11") {
+    container(displayName = "Share the news in General", image = "openjdk:11") {
         kotlinScript { api ->
             api.space().chats.channels.messages.sendTextMessage(
                 channelId = "3IvqFY3AISYG", //#general
