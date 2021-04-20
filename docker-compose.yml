@@ -1,0 +1,38 @@
+version: '3'
+services:
+  node:
+    image: hyperledger/iroha:1.2.1
+    ports:
+      - "50051:50051"
+      - "55552:55552"
+      - "20000:20000"
+    environment:
+      - IROHA_POSTGRES_HOST=postgres
+      - IROHA_POSTGRES_PORT=5432
+      - IROHA_POSTGRES_USER=iroha
+      - IROHA_POSTGRES_PASSWORD=helloworld
+      - KEY=node0
+#      - CCACHE_DIR=/tmp/ccache
+    # export G_ID=$(id -g $(whoami))
+    # export U_ID=$(id -g $(whoami))
+    user: ${U_ID:-0}:${G_ID:-0}
+    depends_on:
+      - postgres
+    tty: true
+    volumes:
+      - ./docker/iroha_data:/opt/iroha
+    working_dir: /opt/iroha
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+  postgres:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=iroha
+      - POSTGRES_PASSWORD=helloworld
+    command: -c 'max_prepared_transactions=100'
+
+volumes:
+  ccache-data:
