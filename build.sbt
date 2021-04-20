@@ -29,7 +29,7 @@ skip in publish := false
 sources in (Compile,doc) := Seq.empty
 publishArtifact in (Compile, packageDoc) := false
 fork in Test := true
-publishTo := Some("space-maven" at s"${sys.env.getOrElse("REPOSITORY_URL", "")}")
+publishTo := sys.env.get("REPOSITORY_URL").map(url => "space-maven" at url)
 
 lazy val `iroha-akka` = (project in file("."))
   .enablePlugins(AkkaGrpcPlugin)
