@@ -1,48 +1,46 @@
-import runtime.ui.displayedName
-
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
 * For more info, see https://www.jetbrains.com/help/space/automation.html
 */
 
-job("Unit tests") {
-    container(displayName = "Run test",  image = "consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/iroha-akka-sbt:latest") {
-        resources {
-            cpu = 1.cpu
-            memory = 2000.mb
-        }
-
-        shellScript {
-            content = """
-                sbt "clean;compile;test"
-            """
-        }
-
-        service("consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/postgres-iroha-test:latest") {
-            resources {
-                cpu = 0.5.cpu
-                memory = 100.mb
-            }
-            alias("postgres")
-            env["POSTGRES_USER"] = "iroha"
-            env["POSTGRES_PASSWORD"] = "helloworld"
-        }
-
-        service("consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/irohad-test:latest") {
-            resources {
-                cpu = 1.cpu
-                memory = 500.mb
-            }
-            alias("iroha")
-            env["IROHA_POSTGRES_HOST"] = "postgres"
-            env["IROHA_POSTGRES_PORT"] = "5432"
-            env["IROHA_POSTGRES_USER"] = "iroha"
-            env["IROHA_POSTGRES_PASSWORD"] = "helloworld"
-            env["KEY"] = "node0"
-        }
-    }
-}
+//job("Unit tests") {
+//    container(displayName = "Run test",  image = "consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/iroha-akka-sbt:latest") {
+//        resources {
+//            cpu = 1.cpu
+//            memory = 2000.mb
+//        }
+//
+//        shellScript {
+//            content = """
+//                sbt "clean;compile;test"
+//            """
+//        }
+//
+//        service("consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/postgres-iroha-test:latest") {
+//            resources {
+//                cpu = 0.5.cpu
+//                memory = 100.mb
+//            }
+//            alias("postgres")
+//            env["POSTGRES_USER"] = "iroha"
+//            env["POSTGRES_PASSWORD"] = "helloworld"
+//        }
+//
+//        service("consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/irohad-test:latest") {
+//            resources {
+//                cpu = 1.cpu
+//                memory = 500.mb
+//            }
+//            alias("iroha")
+//            env["IROHA_POSTGRES_HOST"] = "postgres"
+//            env["IROHA_POSTGRES_PORT"] = "5432"
+//            env["IROHA_POSTGRES_USER"] = "iroha"
+//            env["IROHA_POSTGRES_PASSWORD"] = "helloworld"
+//            env["KEY"] = "node0"
+//        }
+//    }
+//}
 
 job("Build, publish dist") {
     startOn {
