@@ -35,6 +35,7 @@ job("Unit tests") {
                 memory = 500.mb
             }
             entrypoint("/mnt/space/work/iroha-akka/docker/iroha_data/run-iroha.sh")
+            args("irohad")
             alias("iroha")
             env["IROHA_POSTGRES_HOST"] = "postgres"
             env["IROHA_POSTGRES_PORT"] = "5432"
