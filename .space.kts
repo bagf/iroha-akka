@@ -25,7 +25,6 @@ job("Unit tests") {
                 memory = 100.mb
             }
             alias("postgres")
-            args("-c 'max_prepared_transactions=100'")
             env["POSTGRES_USER"] = "iroha"
             env["POSTGRES_PASSWORD"] = "helloworld"
         }
