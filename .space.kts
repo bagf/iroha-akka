@@ -19,17 +19,10 @@ job("Unit tests") {
             """
         }
 
-        service("postgres:9.5") {
+        service("consultsafe.registry.jetbrains.space/p/consolidated-payments/containers/postgres-iroha-test:latest") {
             resources {
                 cpu = 0.5.cpu
                 memory = 100.mb
-            }
-            shellScript {
-                content = """
-                    psql -Uiroha -c 'CREATE DATABASE iroha_default;'
-                    pg_restore -d iroha -U iroha docker/iroha_data/iroha-dump.sql
-                    pg_restore -d iroha_default -U iroha docker/iroha_data/iroha_default-dump.sql
-                """
             }
             alias("postgres")
             args("-c 'max_prepared_transactions=100'")
