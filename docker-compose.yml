@@ -1,7 +1,7 @@
 version: '3'
 services:
   node:
-    image: hyperledger/iroha:1.2.1
+    image: hyperledger/iroha:1.1.1
     ports:
       - "50051:50051"
       - "55552:55552"
