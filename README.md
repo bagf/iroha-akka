@@ -1,31 +1,14 @@
-# consolidated-payments/iroha-akka
+# Welcome
 
+[Hyperledger Iroha](https://github.com/hyperledger/iroha) client using Akka gRPC
 
+The published assets are in a Jetbrains Space, public JARs are not included for this repository.
 
-## Getting Started
+## Testing
 
-Download links:
-
-SSH clone URL: ssh://git@git.jetbrains.space/consultsafe/consolidated-payments/iroha-akka.git
-
-HTTPS clone URL: https://git.jetbrains.space/consultsafe/consolidated-payments/iroha-akka.git
-
-
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-## Prerequisites
-
-What things you need to install the software and how to install them.
+Integration tests for this library require Docker to start Hyperledger Iroha.
 
 ```
-Examples
+docker-compose up -d node postgres
+sbt test
 ```
-
-## Deployment
-
-Add additional notes about how to deploy this on a production system.
-
-## Resources
-
-Add links to external resources for this project, such as CI server, bug tracker, etc.
